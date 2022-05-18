@@ -1,7 +1,7 @@
 import './style.css';
 
 const scores = [
-    {name: 'Joseph', score: 55}
+  { name: 'Joseph', score: 55 },
 ];
 
 const scoreList = document.getElementById('scores-list');
