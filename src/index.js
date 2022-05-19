@@ -42,7 +42,7 @@ addScoreForm.addEventListener('submit', (event) => {
   const formData = new FormData(event.target);
 
   const record = {
-    user: formData.get('user'),
+    user: formData.get('name'),
 
     score: formData.get('score'),
   };
