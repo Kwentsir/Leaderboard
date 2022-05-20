@@ -1,8 +1,59 @@
 import './style.css';
 
-const scores = [
-  { name: 'Joseph', score: 55 },
-];
-
+const baseUrl = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api';
 const scoreList = document.getElementById('scores-list');
-scoreList.innerHTML = scores.map((score) => `<li>${score.name}: ${score.score} </li>`).join('');
+const refreshButton = document.getElementById('refresh');
+
+const getScores = async () => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/games/qLB7AkzcuaFFiATPmxPW/scores`,
+    );
+
+    const data = await response.json();
+
+    scoreList.innerHTML = data.result
+      .map((score) => `<li>${score.user}: ${score.score}</li>`)
+      .join('');
+  } catch (error) {
+    scoreList.innerHTML = '<li>No scores found</li>';
+  }
+};
+
+getScores();
+
+const postRecord = async (record) => {
+  await fetch(`${baseUrl}/games/qLB7AkzcuaFFiATPmxPW/scores`, {
+    method: 'POST',
+
+    headers: {
+      'Content-Type': 'application/json',
+    },
+
+    body: JSON.stringify(record),
+  });
+};
+
+const addScoreForm = document.getElementById('add-score-form');
+
+addScoreForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+
+  const record = {
+    user: formData.get('name'),
+
+    score: formData.get('score'),
+  };
+
+  postRecord(record).then(() => {
+    event.target.reset();
+
+    getScores();
+  });
+});
+
+refreshButton.addEventListener('click', () => {
+  getScores();
+});
