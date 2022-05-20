@@ -42,7 +42,7 @@ addScoreForm.addEventListener('submit', (event) => {
   const formData = new FormData(event.target);
 
   const record = {
-    user: formData.get('name'),
+    user: formData.get('user'),
 
     score: formData.get('score'),
   };
@@ -54,6 +54,4 @@ addScoreForm.addEventListener('submit', (event) => {
   });
 });
 
-refreshButton.addEventListener('click', () => {
-  getScores();
-});
+refreshButton.addEventListener('click', getScores);
